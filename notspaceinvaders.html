@@ -1,6 +1,6 @@
 <!doctype html>
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <canvas id="gameCanvas" width="1900" height="940"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -9,17 +9,56 @@
             canvasContext = canvas.getContext('2d');
 
             setInterval(mainloop, 1000 / 50);
+            document.addEventListener('keydown', keypressed);
+            document.addEventListener('keyup', keyreleased);
         }
         
         function mainloop() {
             colorRect(0,0,canvas.width,canvas.height,'black'); // bg
-  
-        }
+            drawImg(background,imgXpos,imgYpos,imgW,imgH)//background
+            drawImg(player,playerXpos,playerypos,playerSize,playerSize)//player ship
+        
+        }//end main func
         
          function colorRect(x,y,w,h,c){
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x,y,w,h);
-        }
+            
+         }//end func
+        // image vars
+        var background = new Image();
+        background.src = 'images/background.jpg';
+        
+        var player = new Image();
+        player.src = 'sprites/player.png';
+        //end vars
+        
+        
+        function drawImg(src,x,y,w,h){
+            canvasContext.drawImage(src,x,y,w,h);
+            
+        }//end func
+   
+        //vars
+        //background vars
+        var imgXpos = 1080 /2 ;
+        var imgYpos =  720 /4 ;
+        var imgW = 800;
+        var imgH = 600;
+        //player vars
+        var playerSize=70;
+        var playerXpos= 1080/2 + (playerSize / 2);
+        var playerypos= 720 / 2;
+        var playerXspeed = 5;
+        var playerYspeed = 5;
+    
+    
+    
+    
+    
+    
+    
+    
     
     </script>
 </body>
