@@ -25,16 +25,29 @@
             document.addEventListener('keyup', keyreleased);
         }
 
+        var dificulty = prompt('how hard do you want it? easy medium or hard no caps');
+
+        var totalEnemies = 10;
+
+        var settingUp = true;
+
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
             colorRect(Xpos, Ypos, LINE_WIDTH, LineSize, 'orange') // bullet
             drawImg(player, playerXpos, playerYpos, playerSize, playerSize) //player ship
+
             cooldownFunc();
             playerMove();
-
+            if (settingUp) {
+                SpawnEnemies();
+                settingUp = false;
+            }
+            drawEnemies();
             if (shoot && hit == false) {
                 shooting();
+
+                dificulty();
             }
 
         } //end main func
@@ -44,6 +57,7 @@
         var imgYpos = 0;
         var imgW = 800;
         var imgH = 600;
+        var dif = true;
         //player vars
         var playerSize = 70;
         var playerXpos = 0;
@@ -87,6 +101,10 @@
 
         var player = new Image();
         player.src = 'sprites/player.png';
+
+        var Enemy = new Image();
+        Enemy.src = 'sprites/enemy.png'
+
         //end vars
 
 
@@ -95,128 +113,166 @@
 
         } //end func
 
+
+        function drawEnemies() {
+            BadShips.forEach(function(ship, i, array) {
+                drawImg(Enemy, ship.EnemyXpos, ship.EnemyYpos, ship.EnemySize, ship.EnemySize)
+            });
+        }
+
+
         function SpawnEnemies() {
-            var EnemySize = 40;
-            var EnemyYSpeed = 7;
-            var EnemyYpos = 0;
-            var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
-
-            var enemy = {
-                EnemyXpos: EnemyXpos,
-                EnemyYpos: EnemyYpos,
-                EnemySize: EnemySize,
-                EnemyYSpeed: EnemyYSpeed
+            if (dificulty == 'easy') {
+                var EnemySize = 40;
+                var EnemyYSpeed = 7;
+                var EnemyYpos = 0;
+                var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
             }
+                var enemy = {
+                    EnemyXpos: EnemyXpos,
+                    EnemyYpos: EnemyYpos,
+                    EnemySize: EnemySize,
+                    EnemyYSpeed: EnemyYSpeed
+                }
 
-            BadShips.push(enemy);
+                BadShips.push(enemy);
+                if (dificulty == 'medium') {
+                    var EnemySize = 40;
+                    var EnemyYSpeed = 7;
+                    var EnemyYpos = 0;
+                    var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
 
+                    var enemy = {
+                        EnemyXpos: EnemyXpos,
+                        EnemyYpos: EnemyYpos,
+                        EnemySize: EnemySize,
+                        EnemyYSpeed: EnemyYSpeed
+                    }
+
+                    BadShips.push(enemy);
+                    if (dificulty == 'hard') {
+                        var EnemySize = 40;
+                        var EnemyYSpeed = 7;
+                        var EnemyYpos = 0;
+                        var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
+
+                        var enemy = {
+                            EnemyXpos: EnemyXpos,
+                            EnemyYpos: EnemyYpos,
+                            EnemySize: EnemySize,
+                            EnemyYSpeed: EnemyYSpeed
+                        }
+
+                        BadShips.push(enemy);
+
+                    }
+                }
         }
 
+                function shooting() {
+                    if (shoot && cooldown) {
+                        Xpos = playerXpos + (playerSize / 2);
+                        Ypos = playerYpos;
+                        shoot = false;
+                        hit = true;
+                    }
 
-        function shooting() {
-            if (shoot &&  cooldown) {
-                Xpos = playerXpos + (playerSize / 2);
-                Ypos = playerYpos;
-                shoot = false;
-                hit = true;
-            }
+                    if (hit) {
 
-            if (hit ) {
-
-                Ypos -= YSpeed
-                hit = false;
-                cooldown = false;
-            }
-
+                        Ypos -= YSpeed
+                        hit = false;
+                        cooldown = false;
+                    }
 
 
 
 
-        }
 
-        function cooldownFunc() {
-            if (Ypos < 0)
-                cooldown = true;
-        }
+                }
 
-        function playerMove() {
-            if (Xpos > 0) {
-                Ypos = Ypos - YSpeed
+                function cooldownFunc() {
+                    if (Ypos < 0)
+                        cooldown = true;
+                }
 
-            }
+                function playerMove() {
+                    if (Xpos > 0) {
+                        Ypos = Ypos - YSpeed
 
-            if (d && playerXpos < canvas.width - playerSize) {
-                playerXpos += playerXspeed;
-            } // right move
+                    }
 
-            if (a && playerXpos > 0) {
-                playerXpos -= playerXspeed;
-            } // left move
+                    if (d && playerXpos < canvas.width - playerSize) {
+                        playerXpos += playerXspeed;
+                    } // right move
 
-            if (w && playerYpos > 0) {
-                playerYpos -= playerYspeed;
-            } //up move
+                    if (a && playerXpos > 0) {
+                        playerXpos -= playerXspeed;
+                    } // left move
 
-            if (s && playerYpos < canvas.height - playerSize) {
-                playerYpos += playerYspeed;
-            } //down move
+                    if (w && playerYpos > 0) {
+                        playerYpos -= playerYspeed;
+                    } //up move
 
-
-
-
-        } //end func
-
-        function keypressed(evt) {
-            if (evt.keyCode == AKey) { //left
-                a = true;
-
-            }
-            if (evt.keyCode == DKey) { //right
-                d = true;
-
-            }
-            if (evt.keyCode == WKey) { //up
-                w = true;
-
-            }
-            if (evt.keyCode == SKey) { //down
-                s = true;
-
-            }
-            if (evt.keyCode == ShootKey) { //shoot
-                shoot = true;
-                shooting();
-
-            }
-
-
-        } //end func
+                    if (s && playerYpos < canvas.height - playerSize) {
+                        playerYpos += playerYspeed;
+                    } //down move
 
 
 
 
-        function keyreleased(evt) {
+                } //end func
 
-            if (evt.keyCode == AKey) { //left
-                a = false;
-            }
-            if (evt.keyCode == DKey) { //right
-                d = false;
+                function keypressed(evt) {
+                    if (evt.keyCode == AKey) { //left
+                        a = true;
 
-            }
-            if (evt.keyCode == WKey) { //up
-                w = false;
+                    }
+                    if (evt.keyCode == DKey) { //right
+                        d = true;
 
-            }
-            if (evt.keyCode == SKey) { //down
-                s = false;
+                    }
+                    if (evt.keyCode == WKey) { //up
+                        w = true;
 
-            }
-            if (evt.keyCode == ShootKey) { //shoot
+                    }
+                    if (evt.keyCode == SKey) { //down
+                        s = true;
+
+                    }
+                    if (evt.keyCode == ShootKey) { //shoot
+                        shoot = true;
+                        shooting();
+
+                    }
 
 
-            }
-        } //end func
+                } //end func
+
+
+
+
+                function keyreleased(evt) {
+
+                    if (evt.keyCode == AKey) { //left
+                        a = false;
+                    }
+                    if (evt.keyCode == DKey) { //right
+                        d = false;
+
+                    }
+                    if (evt.keyCode == WKey) { //up
+                        w = false;
+
+                    }
+                    if (evt.keyCode == SKey) { //down
+                        s = false;
+
+                    }
+                    if (evt.keyCode == ShootKey) { //shoot
+
+
+                    }
+                } //end func
 
     </script>
 </body>
