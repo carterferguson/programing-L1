@@ -5,17 +5,34 @@
     <style>
         html {
             background-color: black;
+            
         }
 
         canvas {
             display: block;
             margin: 20vh auto;
         }
-        p {
+
+        section {
+            background: crimson;
             
             
         }
+
     </style>
+    <html>
+    
+    <section>       
+        <p>
+        
+        
+        </p>
+        </section>
+    
+    
+    
+    
+    </html>
     <script>
         var canvas, canvasContext;
 
@@ -26,14 +43,19 @@
             setInterval(mainloop, 1000 / 50);
             document.addEventListener('keydown', keypressed);
             document.addEventListener('keyup', keyreleased);
-            document.getElementById("Text", TextInput);
+          
         }
 
         var dificulty = prompt('how hard do you want it? easy medium or hard no caps');
         var UserName = prompt('Enter a Username');
         var totalEnemies = 10;
         var settingUp = true;
-
+//        function textinput(){
+//            
+//            
+//            
+//        }
+        
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
@@ -50,7 +72,7 @@
             if (shoot && hit == false) {
                 shooting();
 
-                dificulty();
+                
             }
 
         } //end main func
@@ -125,7 +147,7 @@
 
 
         function SpawnEnemies() {
-            if (dificulty == easy) {
+            if (dificulty == 'easy') {
                 var EnemySize = 40;
                 var EnemyYSpeed = 7;
                 var EnemyYpos = 0;
@@ -139,7 +161,7 @@
             }
 
             BadShips.push(enemy);
-            if (dificulty == medium) {
+            if (dificulty == 'medium') {
                 var EnemySize = 40;
                 var EnemyYSpeed = 7;
                 var EnemyYpos = 0;
@@ -153,7 +175,7 @@
                 }
 
                 BadShips.push(enemy);
-                if (dificulty == hard) {
+                if (dificulty == 'hard') {
                     var EnemySize = 40;
                     var EnemyYSpeed = 7;
                     var EnemyYpos = 0;
@@ -278,8 +300,7 @@
         } //end func
 
         
-        function TextInput
-        
-        
+       
     </script>
+
 </body>
