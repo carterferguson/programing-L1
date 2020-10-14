@@ -11,7 +11,10 @@
             display: block;
             margin: 20vh auto;
         }
-
+        p {
+            
+            
+        }
     </style>
     <script>
         var canvas, canvasContext;
@@ -23,12 +26,12 @@
             setInterval(mainloop, 1000 / 50);
             document.addEventListener('keydown', keypressed);
             document.addEventListener('keyup', keyreleased);
+            document.getElementById("Text", TextInput);
         }
 
         var dificulty = prompt('how hard do you want it? easy medium or hard no caps');
-
+        var UserName = prompt('Enter a Username');
         var totalEnemies = 10;
-
         var settingUp = true;
 
         function mainloop() {
@@ -122,12 +125,26 @@
 
 
         function SpawnEnemies() {
-            if (dificulty == 'easy') {
+            if (dificulty == easy) {
                 var EnemySize = 40;
                 var EnemyYSpeed = 7;
                 var EnemyYpos = 0;
                 var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
             }
+            var enemy = {
+                EnemyXpos: EnemyXpos,
+                EnemyYpos: EnemyYpos,
+                EnemySize: EnemySize,
+                EnemyYSpeed: EnemyYSpeed
+            }
+
+            BadShips.push(enemy);
+            if (dificulty == medium) {
+                var EnemySize = 40;
+                var EnemyYSpeed = 7;
+                var EnemyYpos = 0;
+                var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
+
                 var enemy = {
                     EnemyXpos: EnemyXpos,
                     EnemyYpos: EnemyYpos,
@@ -136,7 +153,7 @@
                 }
 
                 BadShips.push(enemy);
-                if (dificulty == 'medium') {
+                if (dificulty == hard) {
                     var EnemySize = 40;
                     var EnemyYSpeed = 7;
                     var EnemyYpos = 0;
@@ -150,129 +167,119 @@
                     }
 
                     BadShips.push(enemy);
-                    if (dificulty == 'hard') {
-                        var EnemySize = 40;
-                        var EnemyYSpeed = 7;
-                        var EnemyYpos = 0;
-                        var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
 
-                        var enemy = {
-                            EnemyXpos: EnemyXpos,
-                            EnemyYpos: EnemyYpos,
-                            EnemySize: EnemySize,
-                            EnemyYSpeed: EnemyYSpeed
-                        }
-
-                        BadShips.push(enemy);
-
-                    }
                 }
+            }
         }
 
-                function shooting() {
-                    if (shoot && cooldown) {
-                        Xpos = playerXpos + (playerSize / 2);
-                        Ypos = playerYpos;
-                        shoot = false;
-                        hit = true;
-                    }
+        function shooting() {
+            if (shoot && cooldown) {
+                Xpos = playerXpos + (playerSize / 2);
+                Ypos = playerYpos;
+                shoot = false;
+                hit = true;
+            }
 
-                    if (hit) {
+            if (hit) {
 
-                        Ypos -= YSpeed
-                        hit = false;
-                        cooldown = false;
-                    }
-
-
-
-
-
-                }
-
-                function cooldownFunc() {
-                    if (Ypos < 0)
-                        cooldown = true;
-                }
-
-                function playerMove() {
-                    if (Xpos > 0) {
-                        Ypos = Ypos - YSpeed
-
-                    }
-
-                    if (d && playerXpos < canvas.width - playerSize) {
-                        playerXpos += playerXspeed;
-                    } // right move
-
-                    if (a && playerXpos > 0) {
-                        playerXpos -= playerXspeed;
-                    } // left move
-
-                    if (w && playerYpos > 0) {
-                        playerYpos -= playerYspeed;
-                    } //up move
-
-                    if (s && playerYpos < canvas.height - playerSize) {
-                        playerYpos += playerYspeed;
-                    } //down move
+                Ypos -= YSpeed
+                hit = false;
+                cooldown = false;
+            }
 
 
 
 
-                } //end func
 
-                function keypressed(evt) {
-                    if (evt.keyCode == AKey) { //left
-                        a = true;
+        }
 
-                    }
-                    if (evt.keyCode == DKey) { //right
-                        d = true;
+        function cooldownFunc() {
+            if (Ypos < 0)
+                cooldown = true;
+        }
 
-                    }
-                    if (evt.keyCode == WKey) { //up
-                        w = true;
+        function playerMove() {
+            if (Xpos > 0) {
+                Ypos = Ypos - YSpeed
 
-                    }
-                    if (evt.keyCode == SKey) { //down
-                        s = true;
+            }
 
-                    }
-                    if (evt.keyCode == ShootKey) { //shoot
-                        shoot = true;
-                        shooting();
+            if (d && playerXpos < canvas.width - playerSize) {
+                playerXpos += playerXspeed;
+            } // right move
 
-                    }
+            if (a && playerXpos > 0) {
+                playerXpos -= playerXspeed;
+            } // left move
 
+            if (w && playerYpos > 0) {
+                playerYpos -= playerYspeed;
+            } //up move
 
-                } //end func
-
-
-
-
-                function keyreleased(evt) {
-
-                    if (evt.keyCode == AKey) { //left
-                        a = false;
-                    }
-                    if (evt.keyCode == DKey) { //right
-                        d = false;
-
-                    }
-                    if (evt.keyCode == WKey) { //up
-                        w = false;
-
-                    }
-                    if (evt.keyCode == SKey) { //down
-                        s = false;
-
-                    }
-                    if (evt.keyCode == ShootKey) { //shoot
+            if (s && playerYpos < canvas.height - playerSize) {
+                playerYpos += playerYspeed;
+            } //down move
 
 
-                    }
-                } //end func
 
+
+        } //end func
+
+        function keypressed(evt) {
+            if (evt.keyCode == AKey) { //left
+                a = true;
+
+            }
+            if (evt.keyCode == DKey) { //right
+                d = true;
+
+            }
+            if (evt.keyCode == WKey) { //up
+                w = true;
+
+            }
+            if (evt.keyCode == SKey) { //down
+                s = true;
+
+            }
+            if (evt.keyCode == ShootKey) { //shoot
+                shoot = true;
+                shooting();
+
+            }
+
+
+        } //end func
+
+
+
+
+        function keyreleased(evt) {
+
+            if (evt.keyCode == AKey) { //left
+                a = false;
+            }
+            if (evt.keyCode == DKey) { //right
+                d = false;
+
+            }
+            if (evt.keyCode == WKey) { //up
+                w = false;
+
+            }
+            if (evt.keyCode == SKey) { //down
+                s = false;
+
+            }
+            if (evt.keyCode == ShootKey) { //shoot
+
+
+            }
+        } //end func
+
+        
+        function TextInput
+        
+        
     </script>
 </body>
