@@ -5,7 +5,7 @@
     <style>
         html {
             background-color: black;
-            
+
         }
 
         canvas {
@@ -13,26 +13,10 @@
             margin: 20vh auto;
         }
 
-        section {
-            background: crimson;
-            
-            
-        }
+       
 
     </style>
-    <html>
-    
-    <section>       
-        <p>
-        
-        
-        </p>
-        </section>
-    
-    
-    
-    
-    </html>
+   
     <script>
         var canvas, canvasContext;
 
@@ -43,19 +27,16 @@
             setInterval(mainloop, 1000 / 50);
             document.addEventListener('keydown', keypressed);
             document.addEventListener('keyup', keyreleased);
-          
+
         }
 
         var dificulty = prompt('how hard do you want it? easy medium or hard no caps');
         var UserName = prompt('Enter a Username');
         var totalEnemies = 10;
         var settingUp = true;
-//        function textinput(){
-//            
-//            
-//            
-//        }
-        
+    
+        var totalEnemies = 10;
+
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
@@ -65,17 +46,20 @@
             cooldownFunc();
             playerMove();
             if (settingUp) {
-                SpawnEnemies();
+                for (var i = 0; i < totalEnemies; i++) {
+                    SpawnEnemies();
+                }
                 settingUp = false;
             }
             drawEnemies();
             if (shoot && hit == false) {
                 shooting();
-
                 
-            }
 
-        } //end main func
+            }
+            EnemyMove();
+        } 
+        //end main func
         //vars
         //background vars
         var imgXpos = 0;
@@ -150,8 +134,8 @@
             if (dificulty == 'easy') {
                 var EnemySize = 40;
                 var EnemyYSpeed = 7;
-                var EnemyYpos = 0;
-                var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
+                var EnemyYpos = 10;
+                var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
             }
             var enemy = {
                 EnemyXpos: EnemyXpos,
@@ -163,9 +147,9 @@
             BadShips.push(enemy);
             if (dificulty == 'medium') {
                 var EnemySize = 40;
-                var EnemyYSpeed = 7;
+                var EnemyYSpeed = 10;
                 var EnemyYpos = 0;
-                var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
+                var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));;
 
                 var enemy = {
                     EnemyXpos: EnemyXpos,
@@ -177,9 +161,9 @@
                 BadShips.push(enemy);
                 if (dificulty == 'hard') {
                     var EnemySize = 40;
-                    var EnemyYSpeed = 7;
+                    var EnemyYSpeed = 15;
                     var EnemyYpos = 0;
-                    var EnemyXpos = Math.floor(Math.random() * ((1080 / 2) + 800 - (1080 / 2)) + 1080 / 2);
+                    var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));;
 
                     var enemy = {
                         EnemyXpos: EnemyXpos,
@@ -192,7 +176,7 @@
 
                 }
             }
-        }
+        }//end of array
 
         function shooting() {
             if (shoot && cooldown) {
@@ -207,7 +191,7 @@
                 Ypos -= YSpeed
                 hit = false;
                 cooldown = false;
-            }
+            }//end func
 
 
 
@@ -299,8 +283,26 @@
             }
         } //end func
 
-        
-       
+        function EnemyMove() {
+            //if (SpawnEnemies.EnemyYpos < canvas.height ){
+                
+                
+        SpawnEnemies.EnemyYpos = SpawnEnemies.EnemyYpos + SpawnEnemies.EnemyYSpeed;
+            
+
+        }
+
+
     </script>
 
 </body>
+
+
+
+
+
+
+
+
+
+
