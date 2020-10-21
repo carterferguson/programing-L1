@@ -13,10 +13,8 @@
             margin: 20vh auto;
         }
 
-       
-
     </style>
-   
+
     <script>
         var canvas, canvasContext;
 
@@ -30,11 +28,23 @@
 
         }
 
-        var dificulty = prompt('how hard do you want it? easy medium or hard no caps');
-        var UserName = prompt('Enter a Username');
+        var dificulty = ''
+        while (dificulty == '' || dificulty == null) {
+
+            dificulty = prompt('how hard do you want it? easy medium or hard no caps', 'medium');
+        }
+
+
+
+        var UserName = ''
+
+        while (UserName == '' || UserName == null) {
+            UserName = prompt('Enter a Username');
+        }
+
         var totalEnemies = 10;
         var settingUp = true;
-    
+
         var totalEnemies = 10;
 
         function mainloop() {
@@ -54,11 +64,11 @@
             drawEnemies();
             if (shoot && hit == false) {
                 shooting();
-                
+
 
             }
-            EnemyMove();
-        } 
+            SpawnEnemies.EnemyYpos = SpawnEnemies.EnemyYpos + SpawnEnemies.EnemyYSpeed;
+        }
         //end main func
         //vars
         //background vars
@@ -96,7 +106,7 @@
         var cooldown = false;
         //end vars
 
-
+        //  function EnemyMove() {}
 
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
@@ -131,12 +141,33 @@
 
 
         function SpawnEnemies() {
+
+            var EnemySize = 40;
+            var EnemyYSpeed = 7;
+            var EnemyYpos = 10;
+            var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+
             if (dificulty == 'easy') {
-                var EnemySize = 40;
-                var EnemyYSpeed = 7;
-                var EnemyYpos = 10;
-                var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+                EnemySize = 40;
+                EnemyYSpeed = 7;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
             }
+            if (dificulty == 'medium') {
+                EnemySize = 35;
+                EnemyYSpeed = 11;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+            }
+            if (dificulty == 'hard') {
+                EnemySize = 30;
+                EnemyYSpeed = 16;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+            }
+
+
+
             var enemy = {
                 EnemyXpos: EnemyXpos,
                 EnemyYpos: EnemyYpos,
@@ -145,38 +176,8 @@
             }
 
             BadShips.push(enemy);
-            if (dificulty == 'medium') {
-                var EnemySize = 40;
-                var EnemyYSpeed = 10;
-                var EnemyYpos = 0;
-                var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));;
 
-                var enemy = {
-                    EnemyXpos: EnemyXpos,
-                    EnemyYpos: EnemyYpos,
-                    EnemySize: EnemySize,
-                    EnemyYSpeed: EnemyYSpeed
-                }
-
-                BadShips.push(enemy);
-                if (dificulty == 'hard') {
-                    var EnemySize = 40;
-                    var EnemyYSpeed = 15;
-                    var EnemyYpos = 0;
-                    var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));;
-
-                    var enemy = {
-                        EnemyXpos: EnemyXpos,
-                        EnemyYpos: EnemyYpos,
-                        EnemySize: EnemySize,
-                        EnemyYSpeed: EnemyYSpeed
-                    }
-
-                    BadShips.push(enemy);
-
-                }
-            }
-        }//end of array
+        } //end of array
 
         function shooting() {
             if (shoot && cooldown) {
@@ -191,7 +192,7 @@
                 Ypos -= YSpeed
                 hit = false;
                 cooldown = false;
-            }//end func
+            } //end func
 
 
 
@@ -282,27 +283,8 @@
 
             }
         } //end func
-
-        function EnemyMove() {
-            //if (SpawnEnemies.EnemyYpos < canvas.height ){
-                
-                
-        SpawnEnemies.EnemyYpos = SpawnEnemies.EnemyYpos + SpawnEnemies.EnemyYSpeed;
-            
-
-        }
-
+       
 
     </script>
 
 </body>
-
-
-
-
-
-
-
-
-
-
