@@ -27,7 +27,7 @@
             document.addEventListener('keyup', keyreleased);
 
         }
-
+        //difficulty and name vars
         var dificulty = ''
         while (dificulty == '' || dificulty == null) {
 
@@ -46,11 +46,14 @@
         var settingUp = true;
 
         var totalEnemies = 10;
+        // end vars
+        // main loop 
+
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
-            colorRect(Xpos, Ypos, LINE_WIDTH, LineSize, 'orange') // bullet
+            colorRect(Xpos, Ypos, LINE_WIDTH, LINESIZE, 'orange') // bullet
             drawImg(player, playerXpos, playerYpos, playerSize, playerSize) //player ship
 
             cooldownFunc();
@@ -69,6 +72,8 @@
             }
             SpawnEnemies.EnemyYpos = SpawnEnemies.EnemyYpos + SpawnEnemies.EnemyYSpeed;
         }
+
+
         //end main func
         //vars
         //background vars
@@ -86,18 +91,18 @@
         //enemy vars
         var BadShips = [];
         //key vars
-        const WKey = 87;
-        const SKey = 83;
-        const DKey = 68;
-        const AKey = 65;
-        const ShootKey = 32;
+        const WKEY = 87;
+        const SKEY = 83;
+        const DKEY = 68;
+        const AKEY = 65;
+        const SHOOTKEY = 32;
         var w = false;
         var s = false;
         var d = false;
         var a = false;
         var shoot = false;
         //shooting vars
-        const LineSize = 20;
+        const LINESIZE = 20;
         const LINE_WIDTH = 4;
         var Xpos = -20;
         var Ypos = -20;
@@ -106,7 +111,7 @@
         var cooldown = false;
         //end vars
 
-        //  function EnemyMove() {}
+       
 
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
@@ -124,7 +129,7 @@
         var Enemy = new Image();
         Enemy.src = 'sprites/enemy.png'
 
-        //end vars
+        //end image vars
 
 
         function drawImg(src, x, y, w, h) {
@@ -138,7 +143,11 @@
                 drawImg(Enemy, ship.EnemyXpos, ship.EnemyYpos, ship.EnemySize, ship.EnemySize)
             });
         }
-
+       function EnemyMove(){
+           BadShips.EnemyYpos = 
+           
+           
+       }
 
         function SpawnEnemies() {
 
@@ -198,7 +207,8 @@
 
 
 
-        }
+        } //end func
+        //moving funcs
 
         function cooldownFunc() {
             if (Ypos < 0)
@@ -209,7 +219,7 @@
             if (Xpos > 0) {
                 Ypos = Ypos - YSpeed
 
-            }
+            } //
 
             if (d && playerXpos < canvas.width - playerSize) {
                 playerXpos += playerXspeed;
@@ -233,23 +243,23 @@
         } //end func
 
         function keypressed(evt) {
-            if (evt.keyCode == AKey) { //left
+            if (evt.keyCode == AKEY) { //left
                 a = true;
 
             }
-            if (evt.keyCode == DKey) { //right
+            if (evt.keyCode == DKEY) { //right
                 d = true;
 
             }
-            if (evt.keyCode == WKey) { //up
+            if (evt.keyCode == WKEY) { //up
                 w = true;
 
             }
-            if (evt.keyCode == SKey) { //down
+            if (evt.keyCode == SKEY) { //down
                 s = true;
 
             }
-            if (evt.keyCode == ShootKey) { //shoot
+            if (evt.keyCode == SHOOTKEY) { //shoot
                 shoot = true;
                 shooting();
 
@@ -263,27 +273,26 @@
 
         function keyreleased(evt) {
 
-            if (evt.keyCode == AKey) { //left
+            if (evt.keyCode == AKEY) { //left
                 a = false;
             }
-            if (evt.keyCode == DKey) { //right
+            if (evt.keyCode == DKEY) { //right
                 d = false;
 
             }
-            if (evt.keyCode == WKey) { //up
+            if (evt.keyCode == WKEY) { //up
                 w = false;
 
             }
-            if (evt.keyCode == SKey) { //down
+            if (evt.keyCode == SKEY) { //down
                 s = false;
 
             }
-            if (evt.keyCode == ShootKey) { //shoot
+            if (evt.keyCode == SHOOTKEY) { //shoot
 
 
             }
         } //end func
-       
 
     </script>
 
