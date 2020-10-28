@@ -62,7 +62,10 @@
                 for (var i = 0; i < totalEnemies; i++) {
                     SpawnEnemies();
                 }
+
+
                 settingUp = false;
+
             }
             drawEnemies();
             if (shoot && hit == false) {
@@ -70,7 +73,12 @@
 
 
             }
-            SpawnEnemies.EnemyYpos = SpawnEnemies.EnemyYpos + SpawnEnemies.EnemyYSpeed;
+            EnemyMove();
+        
+            EnemyHit();
+        
+        
+        
         }
 
 
@@ -109,9 +117,11 @@
         var YSpeed = 17;
         var hit = false;
         var cooldown = false;
+        var Kill = false;
+        var KillScore = 0;
         //end vars
 
-       
+
 
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
@@ -143,11 +153,29 @@
                 drawImg(Enemy, ship.EnemyXpos, ship.EnemyYpos, ship.EnemySize, ship.EnemySize)
             });
         }
-       function EnemyMove(){
-           BadShips.EnemyYpos = 
-           
-           
-       }
+
+        function EnemyMove() {
+            BadShips.forEach(function(BadShips, i, array) {
+                  if (BadShips.EnemyYpos > canvas.height) {
+                    BadShips.EnemyYpos = 10;
+                BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+                  }
+                BadShips.EnemyYpos = BadShips.EnemyYpos + BadShips.EnemyYSpeed
+                
+            });
+
+
+        }
+        
+        
+        function EnemyHit(){
+            if (BadShips.EnemyYpos  == Ypos && BadShips.EnemyXpos == Xpos )
+            BadShips.EnemyYpos = 10;
+            BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+            KillScore + 1 ;
+            
+        }
+        
 
         function SpawnEnemies() {
 
@@ -158,21 +186,28 @@
 
             if (dificulty == 'easy') {
                 EnemySize = 40;
-                EnemyYSpeed = 7;
+                EnemyYSpeed = 3;
                 EnemyYpos = 10;
                 EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+                if (EnemyYpos > canvas.height) {
+                    EnemyYpos = 10;
+                }
             }
             if (dificulty == 'medium') {
                 EnemySize = 35;
-                EnemyYSpeed = 11;
+                EnemyYSpeed = 5;
                 EnemyYpos = 10;
                 EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+                if (EnemyYpos > canvas.height) {
+                    EnemyYpos = 10;
+                }
             }
             if (dificulty == 'hard') {
                 EnemySize = 30;
-                EnemyYSpeed = 16;
+                EnemyYSpeed = 6;
                 EnemyYpos = 10;
                 EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+              
             }
 
 
