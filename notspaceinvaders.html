@@ -27,26 +27,27 @@
             document.addEventListener('keyup', keyreleased);
 
         }
-        var GameRUN = true;
 
 
+        var GameRUN = 1;
 
 
         // main loop 
 
-        if (GameRUN) {
-            function mainloop() {
-                if (GameRUN = false) {
-
-                    colortext(UserName + ' You Have failed GAMEOVER', WordXPos, WordYPos, '70px Arial', 'crimson')
-                    //alert('Refresh to restart')
-                }
-
+        function mainloop() {
+            if (GameRUN == 2) {
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
                 drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
+                colortext(UserName + ' You Have failed GAMEOVER', WordXPos, WordYPos, '50px Arial', 'crimson')
+                dificulty = null;
+                UserName = null;
+
+            }
+            if (GameRUN == 1 ) {
+                //                enemyCollision();
+                 drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
                 colorRect(Xpos, Ypos, LINE_SIZE, LINE_SIZE, 'orange') // bullet
                 drawImg(player, playerXpos, playerYpos, playerSize, playerSize) //player ship
-
                 cooldownFunc();
                 playerMove();
                 if (settingUp) {
@@ -65,332 +66,340 @@
 
                 }
                 EnemyMove();
-               
-
-            } //end main func
 
 
-
-            //vars
-            //background vars
-            var imgXpos = 0;
-            var imgYpos = 0;
-            var imgW = 800;
-            var imgH = 600;
-            var dif = true;
-            var WordXPos = -50;
-            var WordYPos = 900 / 2;
-
-            //player vars
-            var playerSize = 70;
-            var playerXpos = 0;
-            var playerYpos = 900 / 2;
-            var playerXspeed = 10;
-            var playerYspeed = 10;
-            //enemy vars
-            var BadShips = [];
-            //key vars
-            const WKEY = 87;
-            const SKEY = 83;
-            const DKEY = 68;
-            const AKEY = 65;
-            const SHOOTKEY = 32;
-            var w = false;
-            var s = false;
-            var d = false;
-            var a = false;
-            var shoot = false;
-            //shooting vars
-
-            const LINE_SIZE = 7;
-            var Xpos = -20;
-            var Ypos = -20;
-            var YSpeed = 17;
-            var hit = false;
-            var cooldown = false;
-            var Kill = false;
-            var KillScore = 0;
-            //difficulty and name vars
-            var dificulty = ''
-            while (dificulty == '' || dificulty == null) {
-
-                dificulty = prompt('how hard do you want it? easy medium or hard no caps', 'medium');
             }
+        } //end main func
 
 
 
-            var UserName = ''
+        //vars
+        //background vars
+        var imgXpos = 0;
+        var imgYpos = 0;
+        var imgW = 800;
+        var imgH = 600;
+        var dif = true;
+        var WordXPos = 50;
+        var WordYPos = 900 / 2;
 
-            while (UserName == '' || UserName == null) {
-                UserName = prompt('Enter a Username');
-            }
+        //player vars
+        var playerSize = 70;
+        var playerXpos = 0;
+        var playerYpos = 900 / 2;
+        var playerXspeed = 10;
+        var playerYspeed = 10;
+        //enemy vars
+        var BadShips = [];
+        //key vars
+        const WKEY = 87;
+        const SKEY = 83;
+        const DKEY = 68;
+        const AKEY = 65;
+        const SHOOTKEY = 32;
+        var w = false;
+        var s = false;
+        var d = false;
+        var a = false;
+        var shoot = false;
+        //shooting vars
 
-            var totalEnemies = 10;
-            var settingUp = true;
-            var totalEnemies = 10;
-            // end vars
+        const LINE_SIZE = 7;
+        var Xpos = -20;
+        var Ypos = -20;
+        var YSpeed = 17;
+        var hit = false;
+        var cooldown = false;
+        var Kill = false;
+        var KillScore = 0;
+        //difficulty and name vars
+        var dificulty = ''
+        while (dificulty == '' || dificulty == null) {
 
-
-
-
-            function colorRect(x, y, w, h, c) {
-                canvasContext.fillStyle = c;
-                canvasContext.fillRect(x, y, w, h);
-
-            } //end func
-            // image vars
-
-            var background = new Image();
-            background.src = 'images/background.jpg';
-
-            var player = new Image();
-            player.src = 'sprites/player.png';
-
-            var Enemy = new Image();
-            Enemy.src = 'sprites/enemy.png'
-
-            //end image vars
-
-
-            function drawImg(src, x, y, w, h) {
-                canvasContext.drawImage(src, x, y, w, h);
-
-            } //end func
-
-
-            function drawEnemies() {
-                BadShips.forEach(function(ship, i, array) {
-                    drawImg(Enemy, ship.EnemyXpos, ship.EnemyYpos, ship.EnemySize, ship.EnemySize)
-                });
-            }
-
-            function EnemyMove() {
-                BadShips.forEach(function(BadShips, i, array) {
-                    BadShips.EnemyYpos = BadShips.EnemyYpos + BadShips.EnemyYSpeed
-                    if (BadShips.EnemyYpos > canvas.height) {
-                        BadShips.EnemyYpos = BadShips.EnemySize;
-                        BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
-                        if (dificulty == 'easy') {
-
-                            BadShips.EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
-                        }
-                        if (dificulty == 'medium') {
-
-                            BadShips.EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
-                        }
-                        if (dificulty == 'hard') {
-
-                            BadShips.EnemyYSpeed = Math.floor(Math.random() * (9 - 6)) + 6;
-                        }
-
-                    }
+            dificulty = prompt('how hard do you want it? easy medium or hard no caps', 'medium');
+        }
 
 
 
-                    if (BadShips.EnemyYpos + BadShips.EnemySize == Ypos + LINE_SIZE && BadShips.EnemyXpos + BadShips.EnemySize == Xpos + LINE_SIZE)
-                        Kill = true;
+        var UserName = ''
+
+        while (UserName == '' || UserName == null) {
+            UserName = prompt('Enter a Username');
+        }
+
+        var totalEnemies = 10;
+        var settingUp = true;
+        var totalEnemies = 10;
+        // end vars
 
 
 
-                    if (dificulty == 'easy' && Kill == true) {
+
+        function colorRect(x, y, w, h, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.fillRect(x, y, w, h);
+
+        } //end func
+        // image vars
+
+        var background = new Image();
+        background.src = 'images/background.jpg';
+
+        var player = new Image();
+        player.src = 'sprites/player.png';
+
+        var Enemy = new Image();
+        Enemy.src = 'sprites/enemy.png'
+
+        //end image vars
+
+
+        function drawImg(src, x, y, w, h) {
+            canvasContext.drawImage(src, x, y, w, h);
+
+        } //end func
+
+
+        function drawEnemies() {
+            BadShips.forEach(function(ship, i, array) {
+                drawImg(Enemy, ship.EnemyXpos, ship.EnemyYpos, ship.EnemySize, ship.EnemySize)
+            });
+
+
+        }
+
+        function EnemyMove() {
+            BadShips.forEach(function(BadShips, i, array) {
+                BadShips.EnemyYpos = BadShips.EnemyYpos + BadShips.EnemyYSpeed
+                if (BadShips.EnemyYpos > canvas.height) {
+                    BadShips.EnemyYpos = BadShips.EnemySize;
+                    BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+                    if (dificulty == 'easy') {
+
                         BadShips.EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
-                        BadShips.EnemyYpos = 10;
-                        BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
-                        Kill = false;
-                        KillScore + 1;
                     }
-                    if (dificulty == 'medium' && Kill == true) {
+                    if (dificulty == 'medium') {
+
                         BadShips.EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
-                        BadShips.EnemyYpos = 10;
-                        BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
-                        Kill = false;
-                        KillScore + 1;
                     }
-                    if (dificulty == 'hard' && Kill == true) {
+                    if (dificulty == 'hard') {
+
                         BadShips.EnemyYSpeed = Math.floor(Math.random() * (9 - 6)) + 6;
-                        BadShips.EnemyYpos = 10;
-                        BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
-                        Kill = false;
-                        KillScore + 1;
                     }
 
-                    if (playerXpos + playerSize == BadShips.EnemyXpos + BadShips.EnemySize && playerYpos + playerSize == BadShips.EnemyYpos + BadShips.EnemySize){
-                        
-                        GameRUN = false;
+                }
 
-                    }
+                if (playerXpos + playerSize > BadShips.EnemyXpos && playerXpos < BadShips.EnemyXpos + BadShips.EnemySize && playerYpos + playerSize > BadShips.EnemyYpos && playerYpos < BadShips.EnemyYpos + BadShips.EnemySize) {
+                    GameRUN = GameRUN + 1;
+                }
 
-                });
 
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+
+
+        function SpawnEnemies() {
+
+            var EnemySize = 40;
+            var EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
+            var EnemyYpos = 10;
+            var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+
+            if (dificulty == 'easy') {
+                EnemySize = 40;
+                EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+                if (EnemyYpos > canvas.height) {
+                    EnemyYpos = 10;
+                }
+            }
+            if (dificulty == 'medium') {
+                EnemySize = 35;
+                EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+                if (EnemyYpos > canvas.height) {
+                    EnemyYpos = 10;
+                }
+            }
+            if (dificulty == 'hard') {
+                EnemySize = 30;
+                EnemyYSpeed = Math.floor(Math.random() * (9 - 6)) + 6;
+                EnemyYpos = 10;
+                EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
 
             }
 
 
 
-
-
-
-
-
-
-            function SpawnEnemies() {
-
-                var EnemySize = 40;
-                var EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
-                var EnemyYpos = 10;
-                var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
-
-                if (dificulty == 'easy') {
-                    EnemySize = 40;
-                    EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
-                    EnemyYpos = 10;
-                    EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
-                    if (EnemyYpos > canvas.height) {
-                        EnemyYpos = 10;
-                    }
-                }
-                if (dificulty == 'medium') {
-                    EnemySize = 35;
-                    EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
-                    EnemyYpos = 10;
-                    EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
-                    if (EnemyYpos > canvas.height) {
-                        EnemyYpos = 10;
-                    }
-                }
-                if (dificulty == 'hard') {
-                    EnemySize = 30;
-                    EnemyYSpeed = Math.floor(Math.random() * (9 - 6)) + 6;
-                    EnemyYpos = 10;
-                    EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
-
-                }
-
-
-
-                var enemy = {
-                    EnemyXpos: EnemyXpos,
-                    EnemyYpos: EnemyYpos,
-                    EnemySize: EnemySize,
-                    EnemyYSpeed: EnemyYSpeed
-                }
-
-                BadShips.push(enemy);
-
-            } //end of array
-
-            function shooting() {
-                if (shoot && cooldown) {
-                    Xpos = playerXpos + (playerSize / 2);
-                    Ypos = playerYpos;
-                    shoot = false;
-                    hit = true;
-                }
-
-                if (hit) {
-
-                    Ypos -= YSpeed
-                    hit = false;
-                    cooldown = false;
-                } //end func
-
-
-
-
-
-            } //end func
-            //moving funcs
-
-            function cooldownFunc() {
-                if (Ypos < 0)
-                    cooldown = true;
+            var enemy = {
+                EnemyXpos: EnemyXpos,
+                EnemyYpos: EnemyYpos,
+                EnemySize: EnemySize,
+                EnemyYSpeed: EnemyYSpeed
             }
 
-            function playerMove() {
-                if (Xpos > 0) {
-                    Ypos = Ypos - YSpeed
+            BadShips.push(enemy);
 
-                } //
+        } //end of array
 
-                if (d && playerXpos < canvas.width - playerSize) {
-                    playerXpos += playerXspeed;
-                } // right move
-
-                if (a && playerXpos > 0) {
-                    playerXpos -= playerXspeed;
-                } // left move
-
-                if (w && playerYpos > 0) {
-                    playerYpos -= playerYspeed;
-                } //up move
-
-                if (s && playerYpos < canvas.height - playerSize) {
-                    playerYpos += playerYspeed;
-                } //down move
-
-
-
-
-            } //end func
-
-            function keypressed(evt) {
-                if (evt.keyCode == AKEY) { //left
-                    a = true;
-
-                }
-                if (evt.keyCode == DKEY) { //right
-                    d = true;
-
-                }
-                if (evt.keyCode == WKEY) { //up
-                    w = true;
-
-                }
-                if (evt.keyCode == SKEY) { //down
-                    s = true;
-
-                }
-                if (evt.keyCode == SHOOTKEY) { //shoot
-                    shoot = true;
-                    shooting();
-
-                }
-
-
-            } //end func
-
-
-
-
-            function keyreleased(evt) {
-
-                if (evt.keyCode == AKEY) { //left
-                    a = false;
-                }
-                if (evt.keyCode == DKEY) { //right
-                    d = false;
-
-                }
-                if (evt.keyCode == WKEY) { //up
-                    w = false;
-
-                }
-                if (evt.keyCode == SKEY) { //down
-                    s = false;
-
-                }
-                if (evt.keyCode == SHOOTKEY) { //shoot
-
-
-                }
-            } //end func
-
-            function colortext(msg, x, y, f, c) {
-                canvasContext.fillStyle = c;
-                canvasContext.font = f;
-                canvasContext.fillText(msg, x, y);
+        function shooting() {
+            if (shoot && cooldown) {
+                Xpos = playerXpos + (playerSize / 2);
+                Ypos = playerYpos;
+                shoot = false;
+                hit = true;
             }
-        } //gameend
+
+            if (hit) {
+
+                Ypos -= YSpeed
+                hit = false;
+                cooldown = false;
+            } //end func
+
+
+
+
+
+        } //end func
+        //moving funcs
+
+        function cooldownFunc() {
+            if (Ypos < 0)
+                cooldown = true;
+        }
+
+        function playerMove() {
+            if (Xpos > 0) {
+                Ypos = Ypos - YSpeed
+
+            } //
+
+            if (d && playerXpos < canvas.width - playerSize) {
+                playerXpos += playerXspeed;
+            } // right move
+
+            if (a && playerXpos > 0) {
+                playerXpos -= playerXspeed;
+            } // left move
+
+            if (w && playerYpos > 0) {
+                playerYpos -= playerYspeed;
+            } //up move
+
+            if (s && playerYpos < canvas.height - playerSize) {
+                playerYpos += playerYspeed;
+            } //down move
+
+
+
+
+        } //end func
+
+        function keypressed(evt) {
+            if (evt.keyCode == AKEY) { //left
+                a = true;
+
+            }
+            if (evt.keyCode == DKEY) { //right
+                d = true;
+
+            }
+            if (evt.keyCode == WKEY) { //up
+                w = true;
+
+            }
+            if (evt.keyCode == SKEY) { //down
+                s = true;
+
+            }
+            if (evt.keyCode == SHOOTKEY) { //shoot
+                shoot = true;
+                shooting();
+
+            }
+
+
+        } //end func
+
+
+
+
+        function keyreleased(evt) {
+
+            if (evt.keyCode == AKEY) { //left
+                a = false;
+            }
+            if (evt.keyCode == DKEY) { //right
+                d = false;
+
+            }
+            if (evt.keyCode == WKEY) { //up
+                w = false;
+
+            }
+            if (evt.keyCode == SKEY) { //down
+                s = false;
+
+            }
+            if (evt.keyCode == SHOOTKEY) { //shoot
+
+
+            }
+        } //end func
+
+        function colortext(msg, x, y, f, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.font = f;
+            canvasContext.fillText(msg, x, y);
+        }
+
+
+        if (BadShips.EnemyYpos + BadShips.EnemySize > Ypos + LINE_SIZE && BadShips.EnemyXpos + BadShips.EnemySize < Xpos + LINE_SIZE &&
+            BadShips.EnemyYpos + BadShips.EnemySize < Ypos + LINE_SIZE && BadShips.EnemyXpos + BadShips.EnemySize > Xpos + LINE_SIZE) {
+
+            Kill = true;
+        }
+
+
+
+        if (dificulty == 'easy' && Kill == true) {
+            BadShips.EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
+            BadShips.EnemyYpos = 10;
+            BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+            KillScore + 1;
+            Xpos = -50
+            Kill = false;
+        }
+        if (dificulty == 'medium' && Kill == true) {
+            BadShips.EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
+            BadShips.EnemyYpos = 10;
+            BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+            KillScore + 1;
+            Xpos = -50
+            Kill = false;
+        }
+        if (dificulty == 'hard' && Kill == true) {
+            BadShips.EnemyYSpeed = Math.floor(Math.random() * (9 - 6)) + 6;
+            BadShips.EnemyYpos = 10;
+            BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
+            KillScore = KillScore + 1;
+            Xpos = -50
+
+            Kill = false;
+        }
 
     </script>
 
