@@ -14,7 +14,7 @@
         }
 
     </style>
-
+    <audio id='sound'> <source src ="music/rick.mp3" ></audio>
     <script>
         var canvas, canvasContext;
 
@@ -25,7 +25,7 @@
             setInterval(mainloop, 1000 / 50);
             document.addEventListener('keydown', keypressed);
             document.addEventListener('keyup', keyreleased);
-
+            
         }
 
 
@@ -44,7 +44,7 @@
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
                 drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
                 colortext(UserName + ' You Have failed GAMEOVER Score = ' + KillScore, WordXPos, WordYPos, '30px Arial', 'crimson')
-                dificulty = null;
+
                 w = false;
                 a = false;
                 d = false;
@@ -52,7 +52,7 @@
                 var NewGame = prompt('do you want to try again, click Ok to play again and Cancel to not', 'Yes')
                 if (NewGame == 'Yes') {
 
-
+                    GameRUN = 1
 
                 }
 
@@ -83,9 +83,9 @@
 
 
 
-
             }
-
+           
+            MyMusic();
 
 
             drawEnemies();
@@ -112,6 +112,9 @@
         var WordXPos = 50;
         var WordYPos = 900 / 2;
 
+        //music vars
+        var Music;
+        const mySound = document.getElementById("sound")
         //player vars
         var playerSize = 70;
         var playerXpos = 0;
@@ -119,8 +122,10 @@
         var playerXspeed = 10;
         var playerYspeed = 10;
         //enemy vars
+
         var BadShips = [];
         //key vars
+
         const WKEY = 87;
         const SKEY = 83;
         const DKEY = 68;
@@ -136,7 +141,7 @@
         const LINE_SIZE = 7;
         var Xpos = -20;
         var Ypos = -20;
-        var YSpeed = 17;
+        var YSpeed = 25;
         var hit = false;
         var cooldown = false;
         var Kill = false;
@@ -435,7 +440,28 @@
 
             })
         };
+        // end func
 
+
+        //music funcs
+
+        function MyMusic() {
+                mySound.play(); 
+        }
+
+
+
+        
+
+
+    
+    
+   
+        
+
+    
+    
+    
     </script>
 
 </body>
