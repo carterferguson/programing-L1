@@ -11,16 +11,41 @@
         canvas {
             display: block;
             margin: 20vh auto;
+            /* puts Game canvas in center*/
+
+
         }
 
     </style>
     <audio id='sound'>
-        <source src="music/BGMUSIC.mp3">
+        <source src="music/BGMUSIC.mp3"><!-- Background Music -->
     </audio>
+
     <audio id='shootsound'>
-        <source src="music/shooting.mp3">
+        <source src="music/shooting.mp3"> <!-- Effect that plays when an enemy is destroyed, sometimes at least -->
+
     </audio>
+
+    <audio id='HighWayToHell'>
+        <source src="music/HighWayToHell.mp3">
+    </audio>
+
+    <audio id='Merica'>
+        <source src="music/'Merica.mp3">
+    </audio>
+
+    <audio id='Ihatetosayit'>
+        <source src="music/Ihatetosayit.mp3">
+    </audio>
+
+    <audio id='BACKUP'>
+        <source src="music/rick.mp3">
+    </audio>
+    <!-- If you get sick of getting rick rolled switch it to the MUSIC mp3 instead of rick for the more approriate song-->
+
+
     <script>
+        //START OF SCRIPT
         var canvas, canvasContext;
 
         window.onload = function() {
@@ -51,16 +76,12 @@
         function mainloop() {
 
             if (Gamerun == 2) {
-
+                BACKUP_SONG.play();
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
                 colortext(UserName + ' You Have failed GAMEOVER Score = ' + KillScore, WordXPos, WordYPos, '30px Arial', 'crimson')
 
             }
             if (Gamerun == 1) {
-
-
-
-
 
 
                 drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
@@ -78,13 +99,6 @@
                     settingUp = false;
 
                 }
-
-
-
-
-
-
-
 
 
                 drawEnemies();
@@ -114,10 +128,9 @@
         var WordXPos = 50;
         var WordYPos = 900 / 2;
 
-        //music vars
-        var Music;
-        const mySound = document.getElementById("sound");
-        const shootsound = document.getElementById("shootsound");
+
+
+        //player vars
 
         var playerSize = 40;
         var playerXpos = 0;
@@ -156,8 +169,6 @@
             dificulty = prompt('What difficulty do you want? easy, medium or hard', 'medium')
 
         }
-
-
 
 
 
@@ -255,7 +266,7 @@
 
 
 
-            }); // foreach loop
+            }); // foreach loop END
 
 
         } //end func
@@ -265,7 +276,7 @@
 
 
 
-
+        //ARRAY FOR ENEMIES
 
 
         function SpawnEnemies() {
@@ -314,9 +325,13 @@
                 EnemyYSpeed: EnemyYSpeed
             }
 
-            BadShips.push(enemy);
+            BadShips.push(enemy); // creates an enemy i
 
         } //end of array
+
+
+
+        //SHOOTING FUNC
 
         function shooting() {
             if (shoot && cooldown) {
@@ -350,7 +365,7 @@
             if (Xpos > 0) {
                 Ypos = Ypos - YSpeed
 
-            } //
+            } //bullet move
 
             if (d && playerXpos < canvas.width - playerSize) {
                 playerXpos += playerXspeed;
@@ -373,6 +388,17 @@
 
         } //end func
 
+
+
+
+
+        //KEYPRESS/RELEASE
+
+
+
+
+
+
         function keypressed(evt) {
             if (evt.keyCode == AKEY) { //left
                 a = true;
@@ -393,8 +419,8 @@
             if (evt.keyCode == SHOOTKEY) { //shoot
                 shoot = true;
                 shooting();
-                drawImg(Firing, playerXpos, playerYpos, playerSize, playerSize);
-                shootsound.play();
+                drawImg(Firing, playerXpos, playerYpos, playerSize, playerSize); //changes 'sprite' to one with a fire ball behind it
+                SHOOTSOUND.play();
             }
 
 
@@ -425,11 +451,19 @@
             }
         } //end func
 
+
+
+
+
         function colortext(msg, x, y, f, c) {
             canvasContext.fillStyle = c;
             canvasContext.font = f;
             canvasContext.fillText(msg, x, y);
         } // text drawing
+
+
+
+
 
 
         function Killing() {
@@ -461,12 +495,7 @@
                     ships.EnemyYpos = 10;
                     ships.EnemyXpos = Math.floor(Math.random() * (canvas.width - ships.EnemySize));
 
-                } //Enemy 'respawn' after being killed
-
-
-
-
-
+                } //Enemy 'respawn' after being killed/ they move back to top with new speed and random X pos
 
 
 
@@ -476,14 +505,86 @@
         // end func
 
 
+
+        //music stuff
+        var Music;
+        const MYSOUND = document.getElementById("sound");
+        const SHOOTSOUND = document.getElementById("shootsound");
+        const HIGHWAYTOHELL = document.getElementById("HighWayToHell");
+        const MERICA = document.getElementById("Merica");
+        const IHATETOSAYIT = document.getElementById("Ihatetosayit");
+        const BACKUP_SONG = document.getElementById("BACKUP");
+        var one = false;
+        var two = false;
+        var three = false;
+        var four = false;
+        var song = prompt('pick a song, one two three or four', 'one');
+        var backup = false;
+
+
+
+
+        ; //8bit sound
+
+
         //music funcs
 
         function MyMusic() {
-            mySound.play(); //background sound
+            if (song == 'one') {
+                one = true;
+            }
+            if (song == 'two') {
+                two = true;
+
+            }
+            if (song == 'three') {
+                three = true;
+            }
+
+            if (song == 'four') {
+                four = true;
+
+            }
+            if (one == false && two == false && three == false && four == false) {
+                backup = true;
+
+            }
+
+            if (one) {
+
+                MYSOUND.play();//song one
 
 
+            }
+            if (two) {
+
+                HIGHWAYTOHELL.play();//song two
+
+
+            }
+            if (three) {
+                IHATETOSAYIT.play();//song three
+
+
+            }
+            if (four) {
+
+                MERICA.play();//song four
+
+
+            }
+            if (backup) {
+
+                BACKUP_SONG.play();//BACKUP RICK ROLL
+
+            }
+            //end music
 
         }
+
+
+
+            //END SCRIPT  
 
     </script>
 
