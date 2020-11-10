@@ -14,7 +14,12 @@
         }
 
     </style>
-    <audio id='sound'> <source src ="music/rick.mp3" ></audio>
+    <audio id='sound'>
+        <source src="music/BGMUSIC.mp3">
+    </audio>
+    <audio id='shootsound'>
+        <source src="music/shooting.mp3">
+    </audio>
     <script>
         var canvas, canvasContext;
 
@@ -25,42 +30,38 @@
             setInterval(mainloop, 1000 / 50);
             document.addEventListener('keydown', keypressed);
             document.addEventListener('keyup', keyreleased);
-            
+
         }
 
 
-        var GameRUN = 1;
+        var NewGame = 'insert string';
 
 
-        // main loop 
         var UserName = ''
 
         while (UserName == '' || UserName == null) {
             UserName = prompt('Enter a Username');
         }
 
+
+
+
+
+        // main loop 
         function mainloop() {
-            if (GameRUN == 2) {
+
+            if (Gamerun == 2) {
+
                 colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-                drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
                 colortext(UserName + ' You Have failed GAMEOVER Score = ' + KillScore, WordXPos, WordYPos, '30px Arial', 'crimson')
 
-                w = false;
-                a = false;
-                d = false;
-                s = false;
-                var NewGame = prompt('do you want to try again, click Ok to play again and Cancel to not', 'Yes')
-                if (NewGame == 'Yes') {
-
-                    GameRUN = 1
-
-                }
-
-
-
             }
+            if (Gamerun == 1) {
 
-            if (GameRUN == 1) {
+
+
+
+
 
                 drawImg(background, imgXpos, imgYpos, imgW, imgH) //background
                 colorRect(Xpos, Ypos, LINE_SIZE, LINE_SIZE, 'orange') // bullet
@@ -83,20 +84,21 @@
 
 
 
+
+
+
+                drawEnemies();
+                if (shoot) {
+                    shooting();
+
+
+                }
+                EnemyMove();
+                Killing();
+                colortext(UserName + ' score =' + KillScore, 10, 20, '30px Arial', 'green')
             }
-           
             MyMusic();
 
-
-            drawEnemies();
-            if (shoot) {
-                shooting();
-
-
-            }
-            EnemyMove();
-            Killing();
-            colortext(UserName + ' score =' + KillScore, 10, 20, '30px Arial', 'green')
         }
         //end main func
 
@@ -114,9 +116,10 @@
 
         //music vars
         var Music;
-        const mySound = document.getElementById("sound")
-        //player vars
-        var playerSize = 70;
+        const mySound = document.getElementById("sound");
+        const shootsound = document.getElementById("shootsound");
+
+        var playerSize = 40;
         var playerXpos = 0;
         var playerYpos = 900 / 2;
         var playerXspeed = 10;
@@ -150,9 +153,17 @@
         var dificulty = ''
         while (dificulty == '' || dificulty == null) {
 
-            dificulty = prompt('how hard do you want it? easy medium or hard no caps', 'medium');
+            dificulty = prompt('What difficulty do you want? easy, medium or hard', 'medium')
+
         }
 
+
+
+
+
+
+
+        var Gamerun = 1;
 
 
 
@@ -163,6 +174,20 @@
         var MinEnemies = 8;
         // end vars
 
+        // image vars
+
+        var background = new Image();
+        background.src = 'images/background.jpg';
+
+        var player = new Image();
+        player.src = 'sprites/player1.png';
+
+        var Enemy = new Image();
+        Enemy.src = 'sprites/enemy.png'
+
+        var Firing = new Image();
+        Firing.src = 'sprites/player2.png'
+        //end image vars
 
 
 
@@ -171,18 +196,7 @@
             canvasContext.fillRect(x, y, w, h);
 
         } //end func
-        // image vars
 
-        var background = new Image();
-        background.src = 'images/background.jpg';
-
-        var player = new Image();
-        player.src = 'sprites/player.png';
-
-        var Enemy = new Image();
-        Enemy.src = 'sprites/enemy.png'
-
-        //end image vars
 
 
         function drawImg(src, x, y, w, h) {
@@ -197,7 +211,7 @@
             });
 
 
-        }
+        } //draws enemy sprites
 
         function EnemyMove() {
             BadShips.forEach(function(BadShips, i, array) {
@@ -221,17 +235,30 @@
                 }
 
                 if (playerXpos + playerSize > BadShips.EnemyXpos && playerXpos < BadShips.EnemyXpos + BadShips.EnemySize && playerYpos + playerSize > BadShips.EnemyYpos && playerYpos < BadShips.EnemyYpos + BadShips.EnemySize) {
-                    BadShips.EnemyYpos = 10;
-                    BadShips.EnemyXpos = Math.floor(Math.random() * (canvas.width - BadShips.EnemySize));
-                    GameRUN = 2;
+
+
+
+                    BadShips.EnemyYpos = playerYpos;
+                    BadShips.EnemyXpos = playerXpos;
+
+                    Gamerun = 2;
+
+
+
+
                 }
 
 
 
-            });
 
 
-        }
+
+
+
+            }); // foreach loop
+
+
+        } //end func
 
 
 
@@ -247,6 +274,9 @@
             var EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
             var EnemyYpos = 10;
             var EnemyXpos = Math.floor(Math.random() * (canvas.width - EnemySize));
+            // backup easy difficulty
+
+
 
             if (dificulty == 'easy') {
                 EnemySize = 40;
@@ -256,6 +286,7 @@
                 if (EnemyYpos > canvas.height) {
                     EnemyYpos = 10;
                 }
+
             }
             if (dificulty == 'medium') {
                 EnemySize = 35;
@@ -291,6 +322,7 @@
             if (shoot && cooldown) {
                 Xpos = playerXpos + (playerSize / 2);
                 Ypos = playerYpos;
+
                 shoot = false;
                 hit = true;
             }
@@ -361,7 +393,8 @@
             if (evt.keyCode == SHOOTKEY) { //shoot
                 shoot = true;
                 shooting();
-
+                drawImg(Firing, playerXpos, playerYpos, playerSize, playerSize);
+                shootsound.play();
             }
 
 
@@ -407,7 +440,7 @@
                     ships.EnemyYSpeed = Math.floor(Math.random() * (6 - 3)) + 3;
                     ships.EnemyYpos = 10;
                     ships.EnemyXpos = Math.floor(Math.random() * (canvas.width - ships.EnemySize));
-
+                    shootsound.play();
                 } //Enemy 'respawn' after being killed
 
 
@@ -417,7 +450,7 @@
                     ships.EnemyYSpeed = Math.floor(Math.random() * (8 - 5)) + 5;
                     ships.EnemyYpos = 10;
                     ships.EnemyXpos = Math.floor(Math.random() * (canvas.width - ships.EnemySize));
-
+                    shootsound.play();
                 } //Enemy 'respawn' after being killed
 
 
@@ -446,22 +479,12 @@
         //music funcs
 
         function MyMusic() {
-                mySound.play(); 
+            mySound.play(); //background sound
+
+
+
         }
 
-
-
-        
-
-
-    
-    
-   
-        
-
-    
-    
-    
     </script>
 
 </body>
